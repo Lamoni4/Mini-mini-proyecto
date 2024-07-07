@@ -12,9 +12,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #4a00e0; /* fallback for old browsers */
-            background: -webkit-linear-gradient(to right, #8e2de2, #4a00e0); /* Chrome 10-25, Safari 5.1-6 */
-            background: linear-gradient(to right, #8e2de2, #4a00e0); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            background: #4a00e0;
+            background: -webkit-linear-gradient(to right, #8e2de2, #4a00e0);
+            background: linear-gradient(to right, #8e2de2, #4a00e0);
             background-repeat: no-repeat;
             background-attachment: fixed;
             background-size: cover;
@@ -43,7 +43,25 @@
     <div class="welcome-container">
         <h1>Bienvenido a mi funval-API</h1>
         <p>¡Explora el mundo de la programación!</p>
-        <button class="btn btn-light">Lamoni Pinchi</button>
+        <button class="btn btn-light" id="fetchUsers">Lamoni Pinchi</button>
+        <ul id="userList"></ul>
     </div>
+    <script>
+        document.getElementById('fetchUsers').addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/usuarios');
+                const data = await response.json();
+                const userList = document.getElementById('userList');
+                userList.innerHTML = '';
+                data.forEach(user => {
+                    const li = document.createElement('li');
+                    li.textContent = `${user.nombres} ${user.apellidos} - ${user.correo}`;
+                    userList.appendChild(li);
+                });
+            } catch (error) {
+                console.error('Error al obtener usuarios:', error);
+            }
+        });
+    </script>
 </body>
 </html>
